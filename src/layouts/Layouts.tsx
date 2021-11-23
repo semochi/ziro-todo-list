@@ -16,8 +16,8 @@ const MainLayout = styled.main`
   width: 100%;
   box-sizing: border-box;
   min-height: 100vh;
-  padding: 10px;
+  align-items: flex-start;
   @media (min-width: 766px) {
-    flex-direction: column;
+    flex-direction: row;
   }
 `;
