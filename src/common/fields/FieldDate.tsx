@@ -9,6 +9,7 @@ export default function FieldDate(props: any) {
       min={DATE_CURRENT}
       name="date"
       placeholder="date"
+      {...props}
     />
   );
 }

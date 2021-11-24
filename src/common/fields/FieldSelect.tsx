@@ -1,22 +1,21 @@
 import { Field } from "formik";
 import styled from "styled-components";
 
-interface Props {
-  value?: string;
-  options: string[];
-}
+const FieldSelect = (props: any) => {
+  let optionsProps: string[] = props.options || [];
 
- const FieldSelect = ({ value, options }: Props) => {
   return (
-    <Select as="select" id="date" name="date" placeholder="date" value={value}>
-      {options.map((label, i) => (
-        <option key={i}>{label}</option>
+    <Select as="select" name="piority">
+      {optionsProps.map((label, i) => (
+        <option value={label} key={i}>
+          {label}
+        </option>
       ))}
     </Select>
   );
 };
 
-export default FieldSelect
+export default FieldSelect;
 
 const Select = styled(Field)`
   border: 1px solid #ddd;
