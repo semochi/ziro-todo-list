@@ -1,13 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import * as Yup from "yup";
 import FieldInput from "../../../common/fields/FieldInput";
 import { Formik, Form } from "formik";
 import FieldTextarea from "../../../common/fields/FieldTextarea";
 import { FormControl, FormGroup, FormLabel } from "../../../common/Form";
 import FieldSelect from "../../../common/fields/FieldSelect";
 import FieldDate from "../../../common/fields/FieldDate";
+import { Button } from "../../../common/Button";
+import { BsFillTrashFill, BsInfoCircle } from "react-icons/bs";
+import LabelStatus from "../../../common/LabelStatus";
 
-import * as Yup from "yup";
 const UpdateTaskSchema = Yup.object().shape({
   title: Yup.string().required("Required"),
 });
@@ -22,7 +25,6 @@ export default function TaskItem({
 }: any) {
   const toggleRef = React.useRef<HTMLDivElement>(null);
 
-
   // Todo : hand button detail
 
   const handleDetail = () => {
@@ -30,9 +32,17 @@ export default function TaskItem({
     // remove all class show
     if (!elm.classList.contains("show")) {
       let { value } = elm.classList;
+      let parentValue = elm.parentElement.classList.value;
+      // clear class parent
+      let parentTargets = Array.from(
+        document.getElementsByClassName(parentValue)
+      );
+      parentTargets.forEach((elm: any) => elm.classList.remove("active"));
+      // clear
       let targets = Array.from(document.getElementsByClassName(value));
       targets.forEach((elm: any) => elm.classList.remove("show"));
     }
+    elm.parentElement.classList.toggle("active");
     elm.classList.toggle("show");
   };
 
@@ -47,18 +57,17 @@ export default function TaskItem({
 
   return (
     <BoxWrapper>
-      <BoxItem>
+      <BoxItem isDone={isDone}>
         <BoxItemCheck>
           <input type="checkbox" value={index - 1} onChange={onSelect} />
           <BoxItemTitle>
-            <i>{task.date}</i>
+            <LabelStatus status={task.piority}/>
             <p>{task.title}</p>
-            {isDone ? "Done" : null}
           </BoxItemTitle>
         </BoxItemCheck>
         <BoxItemButton>
-          <button onClick={onClickRemove}>Remove</button>
-          <button onClick={handleDetail}>Detail</button>
+          <Button onClick={onClickRemove} icon={<BsFillTrashFill />} />
+          <Button onClick={handleDetail} icon={<BsInfoCircle />} />
         </BoxItemButton>
       </BoxItem>
       <BoxShowDetail ref={toggleRef}>
@@ -69,9 +78,6 @@ export default function TaskItem({
         >
           {({ errors }) => (
             <Form>
-              <header>
-                <h6>{`#${index}-${task.title}`}</h6>
-              </header>
               <FormControl>
                 <FormLabel title="Title" error={errors.title} />
                 <FieldInput name="title" error={errors.title} />
@@ -101,40 +107,53 @@ export default function TaskItem({
   );
 }
 
+interface StyleProps {
+  isDone?: Boolean;
+}
+
 const BoxWrapper = styled.section`
+  margin-bottom: 1em;
+  border: 1px solid transparent;
+  &.active {
+    background: #0065a105;
+    border-radius: 8px;
+    border: 1px solid #e9e9e959;
+  }
   .show {
     display: block !important;
   }
 `;
 
-const BoxItem = styled.div`
+const BoxItem = styled.div<StyleProps>`
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  background-color: #98c1d9;
+  background-color: #f5f5f5;
   width: 100%;
   height: 3em;
   padding: 0em 0.5em;
-  margin-bottom: 1em;
-  border-radius: 0.5em;
+  border-radius: 0.3em;
   align-items: center;
+  border-left: ${({ isDone }) => (isDone ? "3px solid #0065a1" : null)};
+  box-shadow: 0px 1px 1px #0001;
+  margin-bottom: 0.3em;
 `;
 
 const BoxItemTitle = styled.div`
   display: flex;
-  color: #fff;
-  flex-direction: column;
-  margin-left: 0.5em;
-  i {
-    font-size: 0.8rem;
-    color: #222222;
-  }
+  align-items: baseline;
+  flex-direction: row;
+    color: #fff;
+    margin: 0 0.5em;
+ 
   p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 1rem;
     margin: 0;
-    font-weight: 700;
-    color: #222222;
+    font-weight: 600;
+    color: #3a3a3a;
+    letter-spacing: 0.5px;
+    margin: 0 0.5em;
   }
 `;
 const BoxItemCheck = styled.div`
@@ -144,6 +163,24 @@ const BoxItemCheck = styled.div`
 const BoxItemButton = styled.div``;
 
 const BoxShowDetail = styled.div`
-  margin-bottom: 2em;
+  margin-bottom: 0.5em;
   display: none;
+  padding: 10px;
+  background: #fafafa;
+  border-radius: 5px;
+  button {
+    width: 100%;
+    padding: 0.8em;
+    margin-top: 1em;
+    background: #0065a1;
+    color: #fff;
+    border: none;
+    border-radius: 0.3em;
+    font-weight: 600;
+    -webkit-letter-spacing: 0.5px;
+    -moz-letter-spacing: 0.5px;
+    -ms-letter-spacing: 0.5px;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+  }
 `;

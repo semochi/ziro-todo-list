@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { ButtonAction } from "../../common/Button";
 import { FormGroup } from "../../common/Form";
 import TaskInputSearch from "./inc/TaskInputSearch";
 import TaskItem from "./inc/TaskItem";
+
+import { BsFillTrashFill,BsCheck2All } from "react-icons/bs";
 interface Props {
   tasks: never[] | [];
   defaultTasks: never[] | [];
@@ -123,8 +126,8 @@ export default function ListTaskItem({
       <BoxFooter>
         <h5>Bluk Action</h5>
         <FormGroup>
-          <button onClick={handleDoneMany}>Done</button>
-          <button onClick={handleRemoveMany}>Remove</button>
+          <ButtonAction onClick={handleDoneMany}  name="Done" icon={<BsCheck2All/>} />
+          <ButtonAction outline onClick={handleRemoveMany}  name="Remove"  icon={<BsFillTrashFill/>}/>
         </FormGroup>
       </BoxFooter>
     </Content>
@@ -174,6 +177,9 @@ const BoxSearch = styled.header`
   h2 {
     margin: 0;
     font-size: 1.5rem;
+    color: #0065a1;
+    font-weight: 700;
+    padding: 0 0.5em;
   }
 `;
 const BoxFooter = styled.div`
@@ -182,7 +188,8 @@ const BoxFooter = styled.div`
   justify-content: space-between;
   display: flex;
   background: #f1f1f1;
+  color: #4a4a4a;
   margin: 10px 0;
-  padding: 10px;
+  padding: 0 1em;
   border-radius: 8px;
 `;
