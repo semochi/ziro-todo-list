@@ -6,7 +6,7 @@ export default function FieldInput(props: any) {
 }
 
 const InputStyle = styled(Field)`
-  border: 1px solid #ddd;
+  border: ${({ error }) => (error ? "1px solid #f44336" : "1px solid #ddd")};
   box-sizing: border-box;
   width: 100%;
   height: 35px;

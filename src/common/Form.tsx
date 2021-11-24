@@ -23,8 +23,12 @@ const FormGroupStyle = styled.div`
  * @param param0
  * @returns
  */
-export function FormLabel({ title }: FormLabelProps) {
-  return <FormLabelStyle>{title}</FormLabelStyle>;
+export function FormLabel({ title, isRequire, error }: FormLabelProps) {
+  return (
+    <FormLabelStyle>
+      {title} : {isRequire && <sup>*</sup>} <small>{error}</small>
+    </FormLabelStyle>
+  );
 }
 
 const FormLabelStyle = styled.label`
@@ -33,6 +37,12 @@ const FormLabelStyle = styled.label`
   font-weight: 600;
   margin-bottom: 0.6em;
   color: #4a4a4a;
+  sup {
+    color: #f44336;
+  }
+  small {
+    color: #f44336;
+  }
 `;
 
 /**

@@ -1,55 +1,132 @@
+import React from "react";
 import styled from "styled-components";
+import { FormGroup } from "../../common/Form";
 import TaskInputSearch from "./inc/TaskInputSearch";
 import TaskItem from "./inc/TaskItem";
 interface Props {
   tasks: never[] | [];
+  defaultTasks: never[] | [];
   onUpdate: (values: any) => void | undefined;
   onSearch: (values: any) => void | undefined;
 }
-export default function ListTaskItem({ tasks, onUpdate, onSearch }: Props) {
+export default function ListTaskItem({
+  tasks,
+  defaultTasks,
+  onUpdate,
+  onSearch,
+}: Props) {
+
+  const [isSearch, setIsSearch] = React.useState(false);
+
+  const [options, setOptions] = React.useState<number[]>([]);
+
+  // Todo: handle button remove one
+
   const handleRemove = (index: number) => {
     return onUpdate(tasks.filter((v, i) => i !== index));
   };
 
-  const handleDetail = (index: number) => {
-    console.log(index);
-  };
+  // Todo: handle button update one
 
   const handleUpdate = (index: number, value: any) => {
-    console.log(index);
-    console.log(value);
+    let results: any = [];
+    tasks.forEach((task: Object, i) => {
+      let newTask = { ...task, ...value };
+      index === i ? results.push(newTask) : results.push(task);
+    });
+    return onUpdate(results);
   };
+
+  // Todo: handle button search
+
   const handleSearch = (keywork: string) => {
     let results: any = [];
     tasks.forEach((elm: any) => {
       let textTitle: string = elm.title.toLowerCase();
-      if (textTitle.indexOf(keywork.toLowerCase()) > 0) {
-        return results.push(elm);
+      if (textTitle.indexOf(keywork.toLowerCase()) > -1) {
+        results.push(elm);
       }
     });
 
+    setIsSearch(true);
     return onSearch(results);
+  };
+
+  // Todo: handle on select check box
+
+  const handleSelect = (e: any) => {
+    let selects = options;
+    if (e.target.checked) {
+      selects = [...options, +e.target.value];
+    } else {
+      let index = selects.indexOf(+e.target.value);
+      selects.splice(index, 1);
+    }
+    setOptions(selects);
+  };
+
+  // Todo: handle button remove many
+
+  const handleRemoveMany = () => {
+    let results: any = [];
+    tasks.forEach((v, i) => {
+      if (!options.includes(i)) results.push(v);
+    });
+    return onUpdate(results);
+  };
+
+  // Todo: handle button done many
+
+  const handleDoneMany = () => {
+    let results: any = [];
+    tasks.forEach((task: Object, i) => {
+      let newTask = { ...task, isDone: true };
+      options.includes(i) ? results.push(newTask) : results.push(task);
+    });
+    return onUpdate(results);
+  };
+
+  // Todo: handle on close search
+
+  const handleCloseSearch = () => {
+    setIsSearch(false);
+    onSearch(defaultTasks);
   };
 
   return (
     <Content>
       <BoxSearch>
         <h2>Todo list</h2>
-        <TaskInputSearch onValue={handleSearch} />
+        <TaskInputSearch
+          isSearch={isSearch}
+          onValue={handleSearch}
+          onClose={handleCloseSearch}
+        />
       </BoxSearch>
       <ListTasks>
-        {tasks.map((task, i) => (
-          <TaskItem
-            {...task}
-            key={i}
-            index={i + 1}
-            task={task}
-            onClickDetail={() => handleDetail(i)}
-            onClickRemove={() => handleRemove(i)}
-            onClickUpdate={(value: any) => handleUpdate(i, value)}
-          />
-        ))}
+        {tasks.map((task: any, i) => {
+          let { isDone } = task;
+          return (
+            <TaskItem
+              {...task}
+              key={i}
+              index={i + 1}
+              task={task}
+              isDone={isDone}
+              onSelect={(e: any) => handleSelect(e)}
+              onClickRemove={() => handleRemove(i)}
+              onClickUpdate={(value: any) => handleUpdate(i, value)}
+            />
+          );
+        })}
       </ListTasks>
+      <BoxFooter>
+        <h5>Bluk Action</h5>
+        <FormGroup>
+          <button onClick={handleDoneMany}>Done</button>
+          <button onClick={handleRemoveMany}>Remove</button>
+        </FormGroup>
+      </BoxFooter>
     </Content>
   );
 }
@@ -67,7 +144,7 @@ const Content = styled.div`
   }
 `;
 const ListTasks = styled.div`
-  height: calc(100vh - 100px);
+  height: calc(100vh - 200px);
   overflow-y: auto;
   box-sizing: border-box;
   border: 1px solid #f1f1f1;
@@ -98,4 +175,14 @@ const BoxSearch = styled.header`
     margin: 0;
     font-size: 1.5rem;
   }
+`;
+const BoxFooter = styled.div`
+  height: 80px;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  background: #f1f1f1;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
 `;

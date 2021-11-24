@@ -6,34 +6,54 @@ import FieldTextarea from "../../../common/fields/FieldTextarea";
 import { FormControl, FormGroup, FormLabel } from "../../../common/Form";
 import FieldSelect from "../../../common/fields/FieldSelect";
 import FieldDate from "../../../common/fields/FieldDate";
+
+import * as Yup from "yup";
+const UpdateTaskSchema = Yup.object().shape({
+  title: Yup.string().required("Required"),
+});
+
 export default function TaskItem({
   index,
   task,
-  onClickDetail,
+  isDone,
+  onSelect,
   onClickRemove,
   onClickUpdate,
 }: any) {
   const toggleRef = React.useRef<HTMLDivElement>(null);
+
+
+  // Todo : hand button detail
+
   const handleDetail = () => {
     let elm: any = toggleRef.current;
-
+    // remove all class show
     if (!elm.classList.contains("show")) {
       let { value } = elm.classList;
       let targets = Array.from(document.getElementsByClassName(value));
       targets.forEach((elm: any) => elm.classList.remove("show"));
     }
-
     elm.classList.toggle("show");
   };
+
+  // Todo : Clear checked if change props task
+
+  React.useLayoutEffect(() => {
+    let targets = Array.from(document.querySelectorAll("input[type=checkbox]"));
+    targets.forEach((elm: any) => {
+      elm.checked = false;
+    });
+  }, [task]);
 
   return (
     <BoxWrapper>
       <BoxItem>
         <BoxItemCheck>
-          <input type="checkbox" />
+          <input type="checkbox" value={index - 1} onChange={onSelect} />
           <BoxItemTitle>
             <i>{task.date}</i>
             <p>{task.title}</p>
+            {isDone ? "Done" : null}
           </BoxItemTitle>
         </BoxItemCheck>
         <BoxItemButton>
@@ -42,29 +62,39 @@ export default function TaskItem({
         </BoxItemButton>
       </BoxItem>
       <BoxShowDetail ref={toggleRef}>
-        <Formik initialValues={task} onSubmit={(value) => onClickUpdate(value)}>
-          <Form>
-            <header>
-              <h6>{`#${index}-${task.title}`}</h6>
-            </header>
-            <FormControl>
-              <FieldInput name="title" />
-            </FormControl>
-            <FormControl>
-              <FieldTextarea name="description" />
-            </FormControl>
-            <FormGroup>
+        <Formik
+          initialValues={task}
+          validationSchema={UpdateTaskSchema}
+          onSubmit={(value) => onClickUpdate(value)}
+        >
+          {({ errors }) => (
+            <Form>
+              <header>
+                <h6>{`#${index}-${task.title}`}</h6>
+              </header>
               <FormControl>
-                <FormLabel title="Due Date" />
-                <FieldDate name="date" />
+                <FormLabel title="Title" error={errors.title} />
+                <FieldInput name="title" error={errors.title} />
               </FormControl>
               <FormControl>
-                <FormLabel title="Piority" />
-                <FieldSelect options={["low", "high", "normal"]} />
+                <FormLabel title="Description" error={errors.description} />
+                <FieldTextarea name="description" error={errors.description} />
               </FormControl>
-            </FormGroup>
-            <button>Update</button>
-          </Form>
+              <FormGroup>
+                <FormControl>
+                  <FormLabel title="Due Date" error={errors.date} />
+                  <FieldDate name="date" error={errors.date} />
+                </FormControl>
+                <FormControl>
+                  <FormLabel title="Piority" />
+                  <FieldSelect options={["low", "high", "normal"]} />
+                </FormControl>
+              </FormGroup>
+              <FormControl>
+                <button type="submit">Update</button>
+              </FormControl>
+            </Form>
+          )}
         </Formik>
       </BoxShowDetail>
     </BoxWrapper>
