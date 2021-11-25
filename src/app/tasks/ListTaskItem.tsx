@@ -5,6 +5,7 @@ import TaskItem from "./inc/TaskItem";
 import { BsFillTrashFill,BsCheck2All } from "react-icons/bs";
 import { FormGroup } from "common/Form";
 import { ButtonAction } from "common/Button";
+import { toast } from "react-toastify";
 interface Props {
   tasks: never[] | [];
   defaultTasks: never[] | [];
@@ -25,6 +26,7 @@ export default function ListTaskItem({
   // Todo: handle button remove one
 
   const handleRemove = (index: number) => {
+    toast.success(<small>Success, Removed task #{index + 1}</small>)
     return onUpdate(tasks.filter((v, i) => i !== index));
   };
 
@@ -36,6 +38,8 @@ export default function ListTaskItem({
       let newTask = { ...task, ...value };
       index === i ? results.push(newTask) : results.push(task);
     });
+
+    toast.success(<small>Success, Updated task #{index + 1}</small>)
     return onUpdate(results);
   };
 
@@ -74,6 +78,7 @@ export default function ListTaskItem({
     tasks.forEach((v, i) => {
       if (!options.includes(i)) results.push(v);
     });
+    toast.success(<small>Success, Removed task #{options.join(", #")}</small>)
     return onUpdate(results);
   };
 
@@ -85,6 +90,7 @@ export default function ListTaskItem({
       let newTask = { ...task, isDone: true };
       options.includes(i) ? results.push(newTask) : results.push(task);
     });
+    toast.success(<small>Success, Updated task #{options.join(", #")}</small>)
     return onUpdate(results);
   };
 

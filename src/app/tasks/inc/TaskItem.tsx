@@ -9,6 +9,9 @@ import FieldInput from "common/fields/FieldInput";
 import FieldTextarea from "common/fields/FieldTextarea";
 import FieldDate from "common/fields/FieldDate";
 import FieldSelect from "common/fields/FieldSelect";
+import { Piority } from "configs/enum";
+
+const OPTIONS_PIORITY = [Piority.STATUS_LOW, Piority.STATUS_HIGH, Piority.STATUS_NORMAL];
 
 export default function TaskItem({
     index,
@@ -84,7 +87,7 @@ export default function TaskItem({
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel title="Piority" />
-                                    <FieldSelect options={["low", "high", "normal"]} />
+                                    <FieldSelect options={OPTIONS_PIORITY} />
                                 </FormControl>
                             </FormGroup>
                             <FormControl>

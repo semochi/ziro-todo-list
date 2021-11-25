@@ -5,6 +5,7 @@ import FieldInput from "common/fields/FieldInput";
 import FieldTextarea from "common/fields/FieldTextarea";
 import FieldSelect from "common/fields/FieldSelect";
 import { NewTaskSchema } from "app/_schema/schema-tasks";
+import { toast } from "react-toastify";
 interface Props {
     onCreateTasks: (values: any) => void | undefined;
 }
@@ -17,6 +18,7 @@ const VALUE_DEFAULT = {
 export default function AddTaskItem({ onCreateTasks }: Props) {
     const handleCreate = (values: any, { resetForm }: any) => {
         onCreateTasks(values);
+        toast.success(<small>Success, Created task</small>)
         resetForm();
     };
 
