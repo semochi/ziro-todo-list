@@ -59,7 +59,7 @@ export default function AddTaskItem({ onCreateTasks }: Props) {
                                 </FormControl>
                             </FormGroup>
                             <FormControl>
-                                <Button type="submit">Submit</Button>
+                                <Button type="submit">Add</Button>
                             </FormControl>
                         </FormInit.Content>
                     )}
