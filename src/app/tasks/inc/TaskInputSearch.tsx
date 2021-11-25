@@ -25,6 +25,7 @@ export default function TaskInputSearch({ isSearch, onValue, onClose }: any) {
 }
 
 const Box = styled.div`
+    position: relative;
     input {
         min-width: 220px;
         border: 1px solid #0065a1;
@@ -37,8 +38,8 @@ const Box = styled.div`
         background: transparent;
         border: none;
         position: absolute;
-        right: 15px;
-        top: 22px;
+        right: 0px;
+        top: -5px;
         height: 40px;
         width: 40px;
         cursor: pointer;
