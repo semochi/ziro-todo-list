@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import TaskInputSearch from "./inc/TaskInputSearch";
 import TaskItem from "./inc/TaskItem";
-import { BsFillTrashFill,BsCheck2All } from "react-icons/bs";
+import { BsFillTrashFill, BsCheck2All } from "react-icons/bs";
 import { FormGroup } from "common/Form";
 import { ButtonAction } from "common/Button";
 import { toast } from "react-toastify";
@@ -131,8 +131,8 @@ export default function ListTaskItem({
       <BoxFooter>
         <span>Bluk Action</span>
         <FormGroup>
-          <ButtonAction onClick={handleDoneMany}  name="Done" icon={<BsCheck2All/>} />
-          <ButtonAction outline onClick={handleRemoveMany}  name="Remove"  icon={<BsFillTrashFill/>}/>
+          <ButtonAction onClick={handleDoneMany} name="Done" icon={<BsCheck2All />} />
+          <ButtonAction outline onClick={handleRemoveMany} name="Remove" icon={<BsFillTrashFill />} />
         </FormGroup>
       </BoxFooter>
     </Content>
@@ -144,15 +144,18 @@ const Content = styled.div`
   width: 100%;
   padding: 1em;
   background-color: #fff;
+  box-shadow: 1px 2px 4px #0003;
   @media (min-width: 766px) {
     flex: 1.5;
+    margin: 15px;
+    border-radius: 10px;
   }
   @media (min-width: 990px) {
     flex: 2;
   }
 `;
 const ListTasks = styled.div`
-  height: calc(100vh - 200px);
+  height: calc(100vh - 235px);
   overflow-y: auto;
   box-sizing: border-box;
   border: 1px solid #f1f1f1;
@@ -178,13 +181,22 @@ const ListTasks = styled.div`
 const BoxSearch = styled.header`
   display: flex;
   justify-content: space-between;
-  margin: 10px 0 25px;
+  margin: 0px 0 25px;
+    flex-direction: column;
   h2 {
     margin: 0;
     font-size: 1.5rem;
     color: #0065a1;
     font-weight: 700;
-    padding: 0 0.5em;
+    padding: 0.2em 0em;
+  }
+
+  @media (min-width: 766px) {
+    flex-direction: row;
+    margin: 10px 0 25px;
+    h2 { 
+      padding: 0 0.5em;
+    }
   }
 `;
 const BoxFooter = styled.div`
@@ -195,6 +207,12 @@ const BoxFooter = styled.div`
   background: #f1f1f1;
   color: #4a4a4a;
   margin: 10px 0;
-  padding: 0 1em;
   border-radius: 8px;
+  padding: 0.5em 1em;
+  flex-direction: column;
+  
+  @media (min-width: 766px) {
+    padding: 0 1em;
+    flex-direction: row;
+  }
 `;

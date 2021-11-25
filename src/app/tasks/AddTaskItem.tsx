@@ -74,24 +74,29 @@ const BoxWrapper = styled.div`
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 2em;
-    padding: 1em;
+    padding: 1em 0.5em;
     @media (min-width: 766px) {
         position: sticky;
         top: 0;
         flex: 1;
+        padding: 1em;
+        
     }
 `;
 
 const BoxForm = styled.div`
     background-color: #fff;
-    padding: 1em;
+    padding: 1em ;
     border-radius: 0.5em;
+    box-shadow: 1px 2px 4px #0003;
+   
 `;
 const BoxFormHeader = styled.h2`
     margin: 0;
     font-size: 1.2rem;
     text-align: center;
     color: #4a4a4a;
+    padding: 0.8rem 0;
 `;
 
 const Button = styled.button`
