@@ -31,7 +31,7 @@ const LabelLow = styled.div`
     background-color: #66bb6a;
     font-size: 0.6rem;
     font-weight: 700;
-    padding: 0.1em 0.5em;
+    padding: 0.2em 0.5em;
     border-radius: 3px;
     cursor: pointer;
     min-width: 6em;
@@ -42,7 +42,7 @@ const LabelNormal = styled.div`
     color: #4a4a4a;
     font-size: 0.6rem;
     font-weight: 700;
-    padding: 0.1em 0.5em;
+    padding: 0.2em 0.5em;
     border-radius: 3px;
     cursor: pointer;
     min-width: 6em;
