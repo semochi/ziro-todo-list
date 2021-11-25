@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { ButtonAction } from "../../common/Button";
-import { FormGroup } from "../../common/Form";
 import TaskInputSearch from "./inc/TaskInputSearch";
 import TaskItem from "./inc/TaskItem";
-
 import { BsFillTrashFill,BsCheck2All } from "react-icons/bs";
+import { FormGroup } from "common/Form";
+import { ButtonAction } from "common/Button";
 interface Props {
   tasks: never[] | [];
   defaultTasks: never[] | [];
