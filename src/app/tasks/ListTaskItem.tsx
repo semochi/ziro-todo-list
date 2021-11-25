@@ -124,7 +124,7 @@ export default function ListTaskItem({
         })}
       </ListTasks>
       <BoxFooter>
-        <h5>Bluk Action</h5>
+        <span>Bluk Action</span>
         <FormGroup>
           <ButtonAction onClick={handleDoneMany}  name="Done" icon={<BsCheck2All/>} />
           <ButtonAction outline onClick={handleRemoveMany}  name="Remove"  icon={<BsFillTrashFill/>}/>
